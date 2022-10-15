@@ -4,6 +4,7 @@ Google每天都可以白嫖
 链接: https://colab.research.google.com/drive/1_Ma71L6uGbtt6UQyA3FjqW2lcZ5Bjck-
 科学上网是必备的
 搭建后端步骤:
+
     1.登录你的Google账号
     
     2.依次运行笔记中的0 1 2步, 第三第四步选一个即可(大概十分钟)
@@ -15,6 +16,7 @@ Google每天都可以白嫖
     4.url出来后需要等待一些时间让他完全部署好, 用自己的浏览器测试这个前端有没有用
 
 插件使用说明:
+
     1.bot刚开始启动url为空的, 所以要用第一步需要set_novelai_url
     
     2.假设刚刚搭建的前端你的url为 "https://myanmaar-flush-alfred-aan.trycloudflare.com", 
@@ -31,6 +33,7 @@ Google每天都可以白嫖
 
         
 注意:
+
     1.后端搭建好的前面十几分钟bot经常post不到后端, 以我用了两三天的经验, 十几分钟后就开始很稳定了
     
     2.colab这两天每天给我的GPU只有三,四小时左右, 你可以考虑多注册几个google账号, 这个每天会刷新的
