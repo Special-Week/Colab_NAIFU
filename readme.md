@@ -1,4 +1,5 @@
-# 使用Google Colab搭建NAIFU后端
+# nonebot2插件
+## 使用Google Colab搭建NAIFU后端
 搭建成功一次大概能用三小时左右
 Google每天都可以白嫖
 链接: https://colab.research.google.com/drive/1_Ma71L6uGbtt6UQyA3FjqW2lcZ5Bjck-
