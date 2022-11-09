@@ -90,7 +90,7 @@ async def down_img2img(url,key,size,img):
 
 # 记录最后一次发出的时间
 lastTime: str = ''
-# 时候正在执行
+# 是否正在执行
 isRunning: bool = False
 # 后端的url, 至于为什么要用dict, 我当初忘记了, 我也懒得改了
 novelai_url = {'url':''}

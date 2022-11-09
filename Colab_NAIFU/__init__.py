@@ -22,6 +22,7 @@ async def _(msg: Message = CommandArg()):
 # 根据prompt生图的响应器
 @novelai.handle()
 async def _(bot: Bot, event: MessageEvent, state: T_State):
+    global isRunning,lastTime
     if isRunning:
         await novelai.finish(f"当前有任务正在进行, 上次运行时:{lastTime}")
     isRunning = True
@@ -89,6 +90,7 @@ async def _(bot: Bot, event: MessageEvent, state: T_State):
 # 以图生图的handle
 @img2img.handle()
 async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
+    global isRunning,lastTime
     if isRunning:
         await img2img.finish(f"当前有任务正在进行, 上次运行时:{lastTime}")
     isRunning = True
