@@ -1,12 +1,8 @@
 import time
 import asyncio
 from .utils import *
-from io import BytesIO
-from PIL import Image as IMG
-from nonebot.typing import T_State
+from nonebot.adapters.onebot.v11 import Bot, PrivateMessageEvent, GroupMessageEvent, MessageSegment
 from nonebot.params import CommandArg
-from nonebot.adapters.onebot.v11 import Bot, PrivateMessageEvent, GroupMessageEvent, MessageSegment, MessageEvent, Message
-
 size_list = [64, 128, 192, 256, 320, 384, 448, 512,
              576, 640, 704, 768, 832, 896, 960, 1024]
 
