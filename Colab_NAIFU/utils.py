@@ -13,7 +13,7 @@ novelai = on_regex(
     block=True
 )
 img2img = on_command("以图画图",aliases={"以图生图","imgtoimg","img2img"}, priority=5, block=True)
-novelai_seturl = on_command("set_novelai_url",priority=10, block=True)
+novelai_seturl = on_command("set_naifu",priority=10, block=True)
 
       
 # 转发消息用的函数
@@ -87,9 +87,10 @@ async def down_img2img(url,key,size,img):
         img_data = base64.b64decode(re[index+5:])
     return img_data
 
-# 记录最后一次发出的时间, CD用
-lastTime: int = 0
-# 每30s只能请求一次(你的后端真的能扛得住吗?)
-cdTime: int = 30
+
+# 记录最后一次发出的时间
+lastTime: str = ''
+# 时候正在执行
+isRunning: bool = False
 # 后端的url, 至于为什么要用dict, 我当初忘记了, 我也懒得改了
 novelai_url = {'url':''}
