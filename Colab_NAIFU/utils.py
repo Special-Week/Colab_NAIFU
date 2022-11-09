@@ -29,7 +29,7 @@ naifu_url = on_command("set_naifu", priority=10,
                        block=True, permission=SUPERUSER)
 reverse_isRunning = on_command(
     "重置ai绘图", priority=10, block=True, permission=SUPERUSER)
-appreciate_img = on_command("赞赏", aliases={"分析"}, priority=10, block=True)
+appreciate_img = on_command("图片赞赏", aliases={"图片分析"}, priority=10, block=True)
 
 
 # 转发消息用的函数
