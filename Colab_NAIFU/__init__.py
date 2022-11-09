@@ -8,23 +8,23 @@ from nonebot.params import CommandArg
 from nonebot.adapters.onebot.v11 import Bot, PrivateMessageEvent, GroupMessageEvent, MessageSegment, MessageEvent, Message
 
 size_list = [64, 128, 192, 256, 320, 384, 448, 512,
-             576, 640, 704, 768, 832, 896, 960, 1024, 1216, 1280]
+             576, 640, 704, 768, 832, 896, 960, 1024]
 
 
 # 换后端的url, 因为你的google colab每次启动的url不一样
-@novelai_seturl.handle()
+@naifu_url.handle()
 async def _(msg: Message = CommandArg()):
     url = msg.extract_plain_text()
     novelai_url.update({"url": url + "generate-stream"})
-    await novelai_seturl.finish("设置成功, 当前url为: " + novelai_url["url"])
+    await naifu_url.finish("设置成功, 当前url为: " + novelai_url["url"])
 
 
 # 根据prompt生图的响应器
 @novelai.handle()
 async def _(bot: Bot, event: MessageEvent, state: T_State):
-    global isRunning,lastTime
+    global isRunning, lastTime
     if isRunning:
-        await novelai.finish(f"当前有任务正在进行, 上次运行时:{lastTime}")
+        await novelai.finish(f"当前有任务正在进行, 上次运行时:  {lastTime}")
     isRunning = True
     lastTime = time.strftime("%H:%M:%S", time.localtime())
     # 获取参数
@@ -90,9 +90,9 @@ async def _(bot: Bot, event: MessageEvent, state: T_State):
 # 以图生图的handle
 @img2img.handle()
 async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
-    global isRunning,lastTime
+    global isRunning, lastTime
     if isRunning:
-        await img2img.finish(f"当前有任务正在进行, 上次运行时:{lastTime}")
+        await img2img.finish(f"当前有任务正在进行, 上次运行时:  {lastTime}")
     isRunning = True
     lastTime = time.strftime("%H:%M:%S", time.localtime())
     # 获取命令参数
@@ -129,7 +129,7 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
         await img2img.finish("不支持gif图片")
 
     # 获取图片的size
-    size = image.size
+    size = list(image.size)
     # 如果size不在列表里面, 就用最接近的
     if size[0] not in size_list:
         size[0] = size_list[min(range(len(size_list)),
@@ -138,7 +138,6 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
         size[1] = size_list[min(range(len(size_list)),
                                 key=lambda i: abs(size_list[i] - size[1]))]
 
-    # 传给后端的图片分辨率不是512x768的话, 不知道为什么后端会报错张量维度相关的错误
     # 所以这里强制拉伸一下
     image = image.resize((size[0], size[1]), IMG.ANTIALIAS)
     # 转成byte
@@ -151,6 +150,8 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
     await img2img.send("ai绘制中，请稍等")
     # 请求后端
     try:
+        print("size: ", size)
+        print("prompt: ", prompt)
         img_data = await down_img2img(novelai_url["url"], prompt, size, b64_encode)
     except:
         img_data = "fail"
@@ -165,3 +166,13 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
         msg = to_json(messages, "ai-setu-bot", bot.self_id)
         await bot.call_api('send_group_forward_msg', group_id=event.group_id, messages=msg)
     isRunning = False
+
+
+@reverse_isRunning.handle()
+async def _():
+    global isRunning
+    if isRunning:
+        isRunning = False
+        await reverse_isRunning.finish("isRunning已重置为了False")
+    else:
+        await reverse_isRunning.finish("isRunning已经是False了")
