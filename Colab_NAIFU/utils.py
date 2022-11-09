@@ -119,8 +119,9 @@ async def down_appreciate(url) -> str:
         "data": [f"data:image/jpeg;base64,{img_b64}", 0.5],
     }
     # 发送请求
+    url_push = "https://hysts-deepdanbooru.hf.space/api/predict"
     async with AsyncClient() as client:
-        r = await client.post(url=url, json=data)
+        r = await client.post(url=url_push, json=data)
         result = r.json()["data"][0]["confidences"]
         msg = ", ".join(i["label"]
                         for i in result if not i["label"].startswith("rating:"))
