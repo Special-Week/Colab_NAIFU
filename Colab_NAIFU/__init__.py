@@ -137,6 +137,7 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
     # 获取图片的size
     size = list(image.size)
 
+
     if size[0]>1024 or size[1]>1024:
         # 等比例缩放, 把最大的边缩放到1024
         if size[0] > size[1]:
