@@ -63,7 +63,10 @@ async def down_pic(url, key, size):
 
     }
     async with AsyncClient() as client:
-        re = await client.post(url=url, timeout=120, json=data, headers=header)
+        try:
+            re = await client.post(url=url, timeout=120, json=data, headers=header)
+        except:
+            return "fail"
         if re.status_code != 200:
             return "fail"
         re = re.text
@@ -95,7 +98,10 @@ async def down_img2img(url, key, size, img):
 
     }
     async with AsyncClient() as client:
-        re = await client.post(url=url, timeout=120, json=data, headers=header)
+        try:
+            re = await client.post(url=url, timeout=120, json=data, headers=header)
+        except:
+            return "fail"
         if re.status_code != 200:
             return "fail"
         re = re.text

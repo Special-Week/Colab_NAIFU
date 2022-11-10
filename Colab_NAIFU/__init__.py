@@ -3,6 +3,7 @@ import asyncio
 from .utils import *
 from nonebot.adapters.onebot.v11 import Bot, PrivateMessageEvent, GroupMessageEvent, MessageSegment
 from nonebot.params import CommandArg
+
 size_list = [64, 128, 192, 256, 320, 384, 448, 512,
              576, 640, 704, 768, 832, 896, 960, 1024]
 
@@ -43,6 +44,15 @@ async def _(bot: Bot, event: MessageEvent, state: T_State):
         size = [512, 768]
     size = [int(size[0]), int(size[1])]
 
+    if size[0]>1024 or size[1]>1024:
+        # 等比例缩放, 把最大的边缩放到1024
+        if size[0] > size[1]:
+            size[1] = int(size[1] * 1024 / size[0])
+            size[0] = 1024
+        else:
+            size[0] = int(size[0] * 1024 / size[1])
+            size[1] = 1024
+            
     # 如果size不在列表里面, 就用最接近的
     if size[0] not in size_list:
         size[0] = size_list[min(range(len(size_list)),
@@ -126,6 +136,16 @@ async def _(bot: Bot, event: MessageEvent, msg: Message = CommandArg()):
 
     # 获取图片的size
     size = list(image.size)
+
+    if size[0]>1024 or size[1]>1024:
+        # 等比例缩放, 把最大的边缩放到1024
+        if size[0] > size[1]:
+            size[1] = int(size[1] * 1024 / size[0])
+            size[0] = 1024
+        else:
+            size[0] = int(size[0] * 1024 / size[1])
+            size[1] = 1024
+            
     # 如果size不在列表里面, 就用最接近的
     if size[0] not in size_list:
         size[0] = size_list[min(range(len(size_list)),
