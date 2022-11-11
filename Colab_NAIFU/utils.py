@@ -109,7 +109,7 @@ async def down_img2img(url, key, size, img):
         img_data = base64.b64decode(re[index+5:])
     return img_data
 
-
+# 提供给鉴赏功能的函数
 async def down_appreciate(url) -> str:
     # 下载请求的图片
     async with AsyncClient() as client:
@@ -133,7 +133,7 @@ async def down_appreciate(url) -> str:
                         for i in result if not i["label"].startswith("rating:"))
     return msg
 
-
+# 提供给鉴赏功能的函数
 def parse_image(key: str):
     async def _key_parser(state: T_State, img: Message = Arg(key)):
         if not get_message_img(img):
@@ -141,7 +141,7 @@ def parse_image(key: str):
         state[key] = img
     return _key_parser
 
-
+# 鉴赏功能handle
 @appreciate_img.handle()
 async def _(event: MessageEvent, state: T_State):
     if event.reply:
@@ -149,12 +149,8 @@ async def _(event: MessageEvent, state: T_State):
     if get_message_img(event.json()):
         state["img"] = event.message
 
-
+# 工具函数, 获取消息中所有的图片的链接
 def get_message_img(data: Union[str, Message]) -> List[str]:
-    """
-    说明：
-        获取消息中所有的 图片 的链接
-    """
     img_list = []
     if isinstance(data, str):
         data = json.loads(data)
@@ -166,7 +162,7 @@ def get_message_img(data: Union[str, Message]) -> List[str]:
             img_list.append(seg.data["url"])
     return img_list
 
-
+# got
 @appreciate_img.got(
     "img", prompt="请发送需要处理的图片...", parameterless=[Depends(parse_image("img"))]
 )
