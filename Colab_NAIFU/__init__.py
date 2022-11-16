@@ -67,6 +67,9 @@ async def _(bot: Bot, event: MessageEvent, state: T_State):
         await novelai.finish('键入prompt: [ai绘图|ai约稿|ai画图] + 关键词 + size:intxint')
     await novelai.send("ai绘制中，请稍等")
 
+    f = lambda x='ddd':sum([1 if u'\u4e00' <= i <= u'\u9fff' else 0 for i in x])>0
+    if f(key):
+        await img2img.send('ai对中文的理解能力有限且没接入翻译插件，所以请用英文来描述图片吧, 但是咱还是先帮你传入后端了喵')
     # 请求后端
     try:
         img_data = await down_pic(novelai_url["url"], key, size)
@@ -134,8 +137,11 @@ async def _(bot: Bot, event: MessageEvent, img: Message = Arg("img"), prompt: st
         prompt = prompt2
     else:
         prompt = prompt1
-    
     # 图片url以及prompt全部到手, 开始处理
+
+    f = lambda x='ddd':sum([1 if u'\u4e00' <= i <= u'\u9fff' else 0 for i in x])>0
+    if f(prompt):
+        await img2img.send('ai对中文的理解能力有限且没接入翻译插件，所以请用英文来描述图片吧, 但是咱还是先帮你传入后端了喵')
 
     try:
         # 下载请求的图片

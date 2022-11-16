@@ -149,7 +149,7 @@ async def _(event: MessageEvent, state: T_State):
     if get_message_img(event.json()):
         state["img"] = event.message
 
-# 工具函数, 获取消息中所有的图片的链接
+# 获取消息中所有的图片的链接
 def get_message_img(data: Union[str, Message]) -> List[str]:
     img_list = []
     if isinstance(data, str):
