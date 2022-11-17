@@ -197,11 +197,11 @@ async def _(bot: Bot, event: MessageEvent, img: Message = Arg("img"), prompt: st
         img_data = "fail"
     if img_data == "fail":
         isRunning = False
-        await novelai.finish("后端请求失败")
+        await img2img.finish("后端请求失败")
     # 构造消息
     messages = f'img2img\nprompt:{prompt}'+MessageSegment.image(img_data)
     if isinstance(event, PrivateMessageEvent):
-        await novelai.send(messages)
+        await img2img.send(messages)
     elif isinstance(event, GroupMessageEvent):
         msg = to_json(messages, "ai-setu-bot", bot.self_id)
         await bot.call_api('send_group_forward_msg', group_id=event.group_id, messages=msg)
