@@ -18,11 +18,11 @@ Google每天都可以白嫖
 
 插件使用说明:
 
-    1.bot刚开始启动url为空的, 所以要用第一步需要set_novelai_url
+    1.bot刚开始启动url为空的, 所以要用第一步需要set_naifu
     
     2.假设刚刚搭建的前端你的url为 "https://myanmaar-flush-alfred-aan.trycloudflare.com", 
     
-    3.给bot发送set_novelai_urlhttps://myanmaar-flush-alfred-aan.trycloudflare.com/(注意最后面的斜杠是必须的, 响应器用的是on_command, 如果设置了command_start,记得加上你的前缀)
+    3.给bot发送set_naifu https://myanmaar-flush-alfred-aan.trycloudflare.com/(注意最后面的斜杠是必须的, 响应器用的是on_command, 如果设置了command_start,记得加上你的前缀)
     
     4.prompt生图的命令示例: ai绘图 loli,white hair,white legwear                                 (具体看源码)
     
