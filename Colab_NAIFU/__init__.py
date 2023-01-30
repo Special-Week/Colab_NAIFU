@@ -78,16 +78,19 @@ async def _(bot: Bot, event: MessageEvent, state: T_State):
     if img_data == "fail":
         isRunning = False
         await novelai.finish("后端请求失败")
-
-    # 构造消息
-    messages = f'prompt:{key}'+MessageSegment.image(img_data)
-    # 私聊直接发
-    if isinstance(event, PrivateMessageEvent):
-        message_id = await novelai.send(messages)
-    # 群聊转发
-    elif isinstance(event, GroupMessageEvent):
-        msg = to_json(messages, "ai-setu-bot", bot.self_id)
-        message_id = await bot.call_api('send_group_forward_msg', group_id=event.group_id, messages=msg)
+    try:
+        # 构造消息
+        messages = f'prompt:{key}'+MessageSegment.image(img_data)
+        # 私聊直接发
+        if isinstance(event, PrivateMessageEvent):
+            message_id = await novelai.send(messages)
+        # 群聊转发
+        elif isinstance(event, GroupMessageEvent):
+            msg = to_json(messages, "ai-setu-bot", bot.self_id)
+            message_id = await bot.call_api('send_group_forward_msg', group_id=event.group_id, messages=msg)
+    except:
+        isRunning = False
+        await novelai.finish("发送失败")
     isRunning = False
     # sleep100s
     await asyncio.sleep(100)
@@ -199,13 +202,22 @@ async def _(bot: Bot, event: MessageEvent, img: Message = Arg("img"), prompt: st
         isRunning = False
         await img2img.finish("后端请求失败")
     # 构造消息
-    messages = f'img2img\nprompt:{prompt}'+MessageSegment.image(img_data)
-    if isinstance(event, PrivateMessageEvent):
-        await img2img.send(messages)
-    elif isinstance(event, GroupMessageEvent):
-        msg = to_json(messages, "ai-setu-bot", bot.self_id)
-        await bot.call_api('send_group_forward_msg', group_id=event.group_id, messages=msg)
+    try:
+        messages = f'img2img\nprompt:{prompt}'+MessageSegment.image(img_data)
+        if isinstance(event, PrivateMessageEvent):
+            message_id = await img2img.send(messages)
+        elif isinstance(event, GroupMessageEvent):
+            msg = to_json(messages, "ai-setu-bot", bot.self_id)
+            message_id = await bot.call_api('send_group_forward_msg', group_id=event.group_id, messages=msg)
+    except:
+        isRunning = False
+        await img2img.finish("图片发送失败")
     isRunning = False
+    # sleep100s
+    await asyncio.sleep(100)
+    # 撤回消息
+    del_id = message_id['message_id']
+    await bot.delete_msg(message_id=del_id)
 
 
 

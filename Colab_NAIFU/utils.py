@@ -95,7 +95,6 @@ async def down_img2img(url, key, size, img):
     }
     header = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.42',
-
     }
     async with AsyncClient() as client:
         try:
